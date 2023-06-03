@@ -1,4 +1,4 @@
-import { es, Faker } from "@faker-js/faker";
+import { en, Faker } from "@faker-js/faker";
 
 export class User {
   name: string;
@@ -8,7 +8,7 @@ export class User {
   };
 
   constructor() {
-    const faker = new Faker({ locale: [es] });
+    const faker = new Faker({ locale: [en] });
     this.name = faker.person.firstName();
     this.location = {
       lat: faker.location.latitude(),
