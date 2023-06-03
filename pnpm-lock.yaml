@@ -15,6 +15,11 @@ dependencies:
     specifier: ^3.0.2
     version: 3.0.2
 
+devDependencies:
+  '@types/google.maps':
+    specifier: ^3.53.2
+    version: 3.53.2
+
 packages:
 
   /@babel/code-frame@7.21.4:
@@ -966,6 +971,10 @@ packages:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
     dev: false
+
+  /@types/google.maps@3.53.2:
+    resolution: {integrity: sha512-rgTa3R5DyFTcjX4hmuGs0XR+kD4M5tZ14lcyYzDDJGr5h0JYj7DbbNZRZNJKDzZOGH3fOXWpIbZGj3BxZbpmjw==}
+    dev: true
 
   /abortcontroller-polyfill@1.7.5:
     resolution: {integrity: sha512-JMJ5soJWP18htbbxJjG7bG6yuI6pRhgJ0scHHTfkUjf6wjP912xZWvM+A4sJK3gqd9E8fcPbDnOefbA9Th/FIQ==}
