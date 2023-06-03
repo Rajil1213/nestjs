@@ -27,7 +27,6 @@ export class CustomMap {
     });
 
     marker.addListener("click", function (this: CustomMap) {
-      console.log(mappable);
       const infoWindow = new google.maps.InfoWindow({
         content: mappable.markerContent()
       });
