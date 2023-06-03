@@ -1,8 +1,10 @@
-interface Mappable {
+export interface Mappable {
   location: {
     lat: number;
     lng: number;
   };
+
+  markerContent(): string;
 }
 
 export class CustomMap {
@@ -18,10 +20,19 @@ export class CustomMap {
     });
   }
 
-  addMarker(marker: Mappable): void {
-    new google.maps.Marker({
+  addMarker(this: CustomMap, mappable: Mappable): void {
+    const marker = new google.maps.Marker({
       map: this.googleMap,
-      position: marker.location
+      position: mappable.location
+    });
+
+    marker.addListener("click", function (this: CustomMap) {
+      console.log(mappable);
+      const infoWindow = new google.maps.InfoWindow({
+        content: mappable.markerContent()
+      });
+
+      infoWindow.open(this.googleMap, marker);
     });
   }
 }

@@ -1,7 +1,7 @@
 /// <reference types="@types/google.maps" />
 import { Company } from "./Company";
 import { CustomMap } from "./CustomMap";
-import { User } from "./user";
+import { User } from "./User";
 
 const user = new User();
 console.log(user);
