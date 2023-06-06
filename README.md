@@ -86,7 +86,7 @@ This project demostrates Dependency Injection (DI) in Nest across modules.
 
   @Module({
     providers: [PowerService],
-    **exports: [PowerService],**
+    exports: [PowerService], // export the service; not the module
   })
   export class PowerModule {}
   ```
@@ -100,7 +100,7 @@ This project demostrates Dependency Injection (DI) in Nest across modules.
 
   @Module({
     providers: [CpuService],
-    **imports: [PowerModule],**
+    imports: [PowerModule], // import the module; not the service
   })
   export class CpuModule {}
   ```
