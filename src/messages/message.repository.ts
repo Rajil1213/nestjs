@@ -1,5 +1,9 @@
 import { readFile, writeFile } from 'fs/promises';
 
+import { Injectable } from '@nestjs/common';
+
+// mark for registration with the DI Container
+@Injectable()
 export class MessagesRepository {
   async findOne(id: string) {
     const contents = await readFile('messages.json', 'utf-8');
