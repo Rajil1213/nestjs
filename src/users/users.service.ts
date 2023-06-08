@@ -13,12 +13,22 @@ export class UsersService {
     return this.repo.save(user);
   }
 
-  findOne(id: number) {
-    return this.repo.findOne({ where: { id } });
+  async findOne(id: number) {
+    const user = await this.repo.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`user with id: ${id} not found`);
+    }
+
+    return user;
   }
 
-  find(email: string) {
-    return this.repo.find({ where: { email } });
+  async find(email: string) {
+    const users = await this.repo.find({ where: { email } });
+    if (users.length == 0) {
+      throw new NotFoundException(`no user with email: ${email} exists`);
+    }
+
+    return users;
   }
 
   async update(id: number, updateDoc: Partial<User>) {
