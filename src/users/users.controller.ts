@@ -6,6 +6,7 @@ import {
   Param,
   UnprocessableEntityException,
   Query,
+  Delete,
 } from "@nestjs/common";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UsersService } from "./users.service";
@@ -22,16 +23,16 @@ export class UsersController {
   @Get(":id")
   // the id coming from the params is a string
   findUser(@Param("id") id: string) {
-    const idAsNum = parseInt(id);
-    if (Number.isNaN(idAsNum)) {
-      throw new UnprocessableEntityException("param :id must be a number");
-    }
-
-    return this.usersService.findOne(idAsNum);
+    return this.usersService.findOne(id);
   }
 
   @Get()
   findAllUsers(@Query("email") email: string) {
     return this.usersService.find(email);
+  }
+
+  @Delete(":id")
+  removeUser(@Param("id") id: string) {
+    return this.usersService.remove(id);
   }
 }
