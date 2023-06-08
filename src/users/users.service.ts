@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from "@nestjs/common";
 import { Repository } from "typeorm";
 import { User } from "./users.entity";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -13,8 +17,13 @@ export class UsersService {
     return this.repo.save(user);
   }
 
-  async findOne(id: number) {
-    const user = await this.repo.findOne({ where: { id } });
+  async findOne(id: string) {
+    const idAsNum = parseInt(id);
+    if (Number.isNaN(idAsNum)) {
+      throw new UnprocessableEntityException("param :id must be a number");
+    }
+
+    const user = await this.repo.findOne({ where: { id: idAsNum } });
     if (!user) {
       throw new NotFoundException(`user with id: ${id} not found`);
     }
@@ -31,7 +40,7 @@ export class UsersService {
     return users;
   }
 
-  async update(id: number, updateDoc: Partial<User>) {
+  async update(id: string, updateDoc: Partial<User>) {
     const user = await this.findOne(id);
 
     if (!user) {
@@ -44,7 +53,7 @@ export class UsersService {
     return this.repo.save(user);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const user = await this.findOne(id);
     if (user) {
       return this.repo.remove(user);
