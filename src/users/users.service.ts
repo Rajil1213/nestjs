@@ -1,11 +1,13 @@
+import { Repository } from "typeorm";
+
 import {
   Injectable,
   NotFoundException,
   UnprocessableEntityException,
 } from "@nestjs/common";
-import { Repository } from "typeorm";
-import { User } from "./users.entity";
 import { InjectRepository } from "@nestjs/typeorm";
+
+import { User } from "./users.entity";
 
 @Injectable()
 export class UsersService {
@@ -32,12 +34,7 @@ export class UsersService {
   }
 
   async find(email: string) {
-    const users = await this.repo.find({ where: { email } });
-    if (users.length == 0) {
-      throw new NotFoundException(`no user with email: ${email} exists`);
-    }
-
-    return users;
+    return this.repo.find({ where: { email } });
   }
 
   async update(id: string, updateDoc: Partial<User>) {
