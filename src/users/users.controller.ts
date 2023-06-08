@@ -7,9 +7,11 @@ import {
   UnprocessableEntityException,
   Query,
   Delete,
+  Patch,
 } from "@nestjs/common";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UsersService } from "./users.service";
+import { UpdateUserDto } from "./dtos/update-user.dto";
 
 @Controller("auth")
 export class UsersController {
@@ -34,5 +36,10 @@ export class UsersController {
   @Delete(":id")
   removeUser(@Param("id") id: string) {
     return this.usersService.remove(id);
+  }
+
+  @Patch(":id")
+  updateUser(@Param("id") id: string, @Body() updateUserDoc: UpdateUserDto) {
+    return this.usersService.update(id, updateUserDoc);
   }
 }
