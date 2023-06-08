@@ -6,6 +6,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Exclude } from "class-transformer";
 
 @Entity()
 // okay to not append Entity to the name (community convention)
@@ -16,6 +17,7 @@ export class User {
   @Column()
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
 
