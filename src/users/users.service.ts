@@ -34,5 +34,14 @@ export class UsersService {
     return this.repo.save(user);
   }
 
-  remove() {}
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    if (user) {
+      return this.repo.remove(user);
+    }
+
+    // if the user does not exist, it's already removed
+    // an alternative is to throw an error
+    return Promise.resolve(new User());
+  }
 }
