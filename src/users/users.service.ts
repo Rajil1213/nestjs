@@ -22,7 +22,9 @@ export class UsersService {
   async findOne(id: string) {
     const idAsNum = parseInt(id);
     if (Number.isNaN(idAsNum)) {
-      throw new UnprocessableEntityException("param :id must be a number");
+      throw new UnprocessableEntityException(
+        `param :id must be a number, found ${id} of type ${typeof id}`,
+      );
     }
 
     const user = await this.repo.findOne({ where: { id: idAsNum } });

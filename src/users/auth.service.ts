@@ -3,6 +3,8 @@ import * as bcrypt from "bcrypt";
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
+  UnauthorizedException,
 } from "@nestjs/common";
 
 import { UsersService } from "./users.service";
@@ -22,5 +24,19 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, rounds);
 
     return this.usersService.create(email, hashedPassword);
+  }
+
+  async signin(email: string, password: string) {
+    const [user] = await this.usersService.find(email);
+    if (!user) {
+      throw new NotFoundException(`user with email: ${email} not found`);
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException("wrong email/password combination");
+    }
+
+    return user;
   }
 }

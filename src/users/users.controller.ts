@@ -1,6 +1,8 @@
 import { Serialize } from "src/interceptors/serialize.interceptor";
 
+import { Session as secureSession } from "@fastify/secure-session";
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -9,6 +11,7 @@ import {
   Patch,
   Post,
   Query,
+  Session,
 } from "@nestjs/common";
 
 import { AuthService } from "./auth.service";
@@ -26,8 +29,32 @@ export class UsersController {
   ) {}
 
   @Post("signup")
-  createUser(@Body() body: CreateUserDto) {
-    return this.authService.signup(body.email, body.password);
+  async createUser(
+    @Body() body: CreateUserDto,
+    @Session() session: secureSession,
+  ) {
+    const user = await this.authService.signup(body.email, body.password);
+    session.set("userId", user.id);
+    return user;
+  }
+
+  @Post("signin")
+  async signInUser(
+    @Body() body: CreateUserDto,
+    @Session() session: secureSession,
+  ) {
+    const user = await this.authService.signin(body.email, body.password);
+    session.set("userId", user.id);
+    return user;
+  }
+
+  @Get("whoami")
+  whoAmI(@Session() session: secureSession) {
+    const userId = session.get("userId");
+    if (!userId) {
+      throw new BadRequestException("session cookie missing/invalid");
+    }
+    return this.usersService.findOne(session.get("userId"));
   }
 
   @Get(":id")
