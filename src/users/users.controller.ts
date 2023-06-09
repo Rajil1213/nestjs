@@ -48,11 +48,16 @@ export class UsersController {
     return user;
   }
 
+  @Post("signout")
+  signOut(@Session() session: secureSession) {
+    session.delete();
+  }
+
   @Get("whoami")
   whoAmI(@Session() session: secureSession) {
     const userId = session.get("userId");
     if (!userId) {
-      throw new BadRequestException("session cookie missing/invalid");
+      throw new BadRequestException("session cookie missing or invalid");
     }
     return this.usersService.findOne(session.get("userId"));
   }
