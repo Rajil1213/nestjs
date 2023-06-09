@@ -1,6 +1,6 @@
+import { FastifyRequest } from "fastify";
 import { Observable } from "rxjs";
 
-import { Session } from "@fastify/secure-session";
 import {
   CallHandler,
   ExecutionContext,
@@ -8,7 +8,14 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
+import { User } from "../users.entity";
 import { UsersService } from "../users.service";
+
+declare module "fastify" {
+  interface FastifyRequest {
+    currentUser: User | Record<string, never>;
+  }
+}
 
 @Injectable()
 export class CurrentUserInterceptor implements NestInterceptor {
@@ -18,8 +25,8 @@ export class CurrentUserInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler<any>,
   ): Promise<Observable<any>> {
-    const request = context.switchToHttp().getRequest();
-    const userId = (request.session as Session).get("userId");
+    const request = context.switchToHttp().getRequest<FastifyRequest>();
+    const userId = request.session.get("userId");
 
     if (userId) {
       const user = await this.usersService.findOne(userId);
