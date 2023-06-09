@@ -2,7 +2,6 @@ import { Serialize } from "src/interceptors/serialize.interceptor";
 
 import { Session as secureSession } from "@fastify/secure-session";
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -12,9 +11,12 @@ import {
   Post,
   Query,
   Session,
+  UseGuards,
 } from "@nestjs/common";
 
+import { AuthGuard } from "../guards/auth.guard";
 import { AuthService } from "./auth.service";
+import { CurrentUser } from "./decorators/current-user.decorator";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UpdateUserDto } from "./dtos/update-user.dto";
 import { UserDto } from "./dtos/user.dto";
@@ -53,13 +55,10 @@ export class UsersController {
     session.delete();
   }
 
+  @UseGuards(AuthGuard)
   @Get("whoami")
-  whoAmI(@Session() session: secureSession) {
-    const userId = session.get("userId");
-    if (!userId) {
-      throw new BadRequestException("session cookie missing or invalid");
-    }
-    return this.usersService.findOne(session.get("userId"));
+  whoAmI(@CurrentUser() user: UserDto) {
+    return user;
   }
 
   @Get(":id")
