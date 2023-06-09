@@ -1,0 +1,9 @@
+{
+  "wrappingStyle": {
+    "maxBindingNamesPerLine": 2,
+    "maxDefaultAndBindingNamesPerLine": 2,
+    "maxExportNamesPerLine": 0,
+    "maxNamesPerWrappedLine": 1,
+    "ignoreComments": true
+  }
+}
