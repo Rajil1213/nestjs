@@ -1,15 +1,8 @@
 import fastifyCsrf from "@fastify/csrf-protection";
 import secureSession from "@fastify/secure-session";
-import { ValidationPipe } from "@nestjs/common";
 import { NestFastifyApplication } from "@nestjs/platform-fastify";
 
 export const setupMiddleware = async (app: NestFastifyApplication) => {
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-    }),
-  );
-
   await app.register(secureSession, {
     secret: "averylogphrasebiggerthanthirtytwochars",
     salt: "mq9hDxBVDbspDR6n",
