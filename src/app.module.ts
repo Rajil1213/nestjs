@@ -1,4 +1,5 @@
 import { Module, ValidationPipe } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { APP_PIPE } from "@nestjs/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
@@ -11,13 +12,22 @@ import { UsersModule } from "./users/users.module";
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // use everywhere
+      envFilePath: `.env.${process.env.NODE_ENV}`,
+    }),
     ReportsModule,
     UsersModule,
-    TypeOrmModule.forRoot({
-      type: "sqlite",
-      database: "db.sqlite",
-      entities: [User, Report],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        return {
+          type: "sqlite",
+          database: config.get<string>("DB_NAME"),
+          synchronize: true,
+          entities: [User, Report],
+        };
+      },
     }),
   ],
   controllers: [AppController],
