@@ -1,11 +1,14 @@
 import fastifyCsrf from "@fastify/csrf-protection";
 import secureSession from "@fastify/secure-session";
+import { ConfigService } from "@nestjs/config";
 import { NestFastifyApplication } from "@nestjs/platform-fastify";
 
 export const setupMiddleware = async (app: NestFastifyApplication) => {
+  const configService = app.get(ConfigService);
+
   await app.register(secureSession, {
-    secret: "averylogphrasebiggerthanthirtytwochars",
-    salt: "mq9hDxBVDbspDR6n",
+    secret: configService.get<string>("SESSION_SECRET"),
+    salt: configService.get<string>("SESSION_SALT"),
     logLevel: "debug",
     cookieName: "nest_project_session",
     cookie: {
