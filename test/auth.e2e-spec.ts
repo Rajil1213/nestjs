@@ -41,4 +41,23 @@ describe("Authentication System", () => {
         expect(resEmail).toBe(email);
       });
   });
+
+  it("retrieves the currently signed in user", async () => {
+    const email = "e2etest@test.com";
+    const password = "password";
+
+    const res = await request(app.getHttpServer())
+      .post("/auth/signup")
+      .send({ email, password })
+      .expect(201);
+
+    const cookie = res.get("Set-Cookie");
+
+    const { body } = await request(app.getHttpServer())
+      .get("/auth/whoami")
+      .set("Cookie", cookie)
+      .expect(200);
+
+    expect(body).toMatchObject({ email });
+  });
 });
