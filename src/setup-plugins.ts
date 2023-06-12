@@ -12,6 +12,7 @@ export const setupMiddleware = async (app: NestFastifyApplication) => {
     logLevel: "debug",
     cookieName: "nest_project_session",
     cookie: {
+      path: "/",
       httpOnly: true,
       sameSite: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
