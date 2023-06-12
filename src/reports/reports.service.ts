@@ -1,3 +1,4 @@
+import { User } from "src/users/users.entity";
 import { Repository } from "typeorm";
 
 import { Injectable } from "@nestjs/common";
@@ -10,8 +11,9 @@ import { Report } from "./reports.entity";
 export class ReportsService {
   constructor(@InjectRepository(Report) private repo: Repository<Report>) {}
 
-  create(report: CreateReportDto) {
+  create(report: CreateReportDto, user: User) {
     const newReport = this.repo.create(report);
+    newReport.user = user;
     return this.repo.save(newReport);
   }
 }
