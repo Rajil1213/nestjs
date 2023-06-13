@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Relation,
+} from "typeorm";
 
 import { User } from "../users/users.entity";
 
@@ -32,5 +38,5 @@ export class Report {
   mileage: number;
 
   @ManyToOne(() => User, (user) => user.reports)
-  user: User;
+  user: Relation<User>;
 }

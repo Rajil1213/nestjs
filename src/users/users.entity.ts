@@ -6,6 +6,7 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  Relation,
 } from "typeorm";
 
 import { Report } from "../reports/reports.entity";
@@ -27,7 +28,7 @@ export class User {
   admin: boolean;
 
   @OneToMany(() => Report, (report) => report.user)
-  reports: Report[];
+  reports: Relation<Report[]>;
 
   @AfterInsert()
   logInsert() {
