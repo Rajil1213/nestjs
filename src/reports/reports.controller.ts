@@ -1,5 +1,3 @@
-import { AdminGuard } from "src/guards/admin.guard";
-
 import {
   Body,
   Controller,
@@ -11,6 +9,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 
+import { AdminGuard } from "../guards/admin.guard";
 import { AuthGuard } from "../guards/auth.guard";
 import { Serialize } from "../interceptors/serialize.interceptor";
 import { CurrentUser } from "../users/decorators/current-user.decorator";

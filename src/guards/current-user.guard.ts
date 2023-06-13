@@ -1,6 +1,6 @@
-import { UsersService } from "src/users/users.service";
-
 import { CanActivate, ExecutionContext, Inject } from "@nestjs/common";
+
+import { UsersService } from "../users/users.service";
 
 export class CurrentUserGuard implements CanActivate {
   constructor(@Inject(UsersService) private usersService: UsersService) {}
