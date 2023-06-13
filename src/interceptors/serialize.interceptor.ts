@@ -1,8 +1,5 @@
 import { plainToInstance } from "class-transformer";
-import {
-  map,
-  Observable,
-} from "rxjs";
+import { map, Observable } from "rxjs";
 
 import {
   CallHandler,
@@ -12,7 +9,7 @@ import {
 } from "@nestjs/common";
 
 interface ClassContructor {
-  new (...args: any[]): {};
+  new (...args: any[]): object;
 }
 
 export const Serialize = (dto: ClassContructor) => {
