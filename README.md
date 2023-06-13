@@ -1,6 +1,6 @@
 # NestJS Masterclass
 
-Contains course work for NestJS based on the Udemy Course by Stephen Grider.
+Contains course work for NestJS based on [this Udemy Course by Stephen Grider](https://www.udemy.com/course/nestjs-the-complete-developers-guide/).
 
 Each project is on a separate branch.
 
