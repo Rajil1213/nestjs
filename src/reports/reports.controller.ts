@@ -1,3 +1,5 @@
+import { AdminGuard } from "src/guards/admin.guard";
+
 import {
   Body,
   Controller,
@@ -28,6 +30,7 @@ export class ReportsController {
   }
 
   @Patch(":id")
+  @UseGuards(AdminGuard)
   approveReport(@Param("id") id: string, @Body() body: ApproveReportDto) {
     return this.reportsService.approve(id, body.approve);
   }
