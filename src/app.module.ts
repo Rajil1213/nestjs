@@ -1,10 +1,11 @@
 import { Module, ValidationPipe } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { APP_PIPE } from "@nestjs/core";
+import { APP_GUARD, APP_PIPE } from "@nestjs/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { CurrentUserGuard } from "./guards/current-user.guard";
 import { Report } from "./reports/reports.entity";
 import { ReportsModule } from "./reports/reports.module";
 import { User } from "./users/users.entity";
@@ -38,6 +39,10 @@ import { UsersModule } from "./users/users.module";
       useValue: new ValidationPipe({
         whitelist: true,
       }),
+    },
+    {
+      provide: APP_GUARD,
+      useClass: CurrentUserGuard,
     },
   ],
 })
